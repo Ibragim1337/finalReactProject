@@ -8,9 +8,10 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Root, { loader as rootLoader } from "./routes/Root";
+import Root, { loader as rootLoader, action as rootAction } from './routes/Root'
 import ErrorPage from './error-page';
-import Task from './routes/task';
+import Task, {loader as taskLoader,} from './routes/task';
+import EditTask, {action as editAction,} from './routes/edit';
 
 
 const router = createBrowserRouter([
@@ -19,10 +20,18 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     loader: rootLoader,
+    action: rootAction,
     children: [
       {
-        path: "contacts/:contactId",
+        path: "tasks/:taskId",
         element: <Task />,
+        loader: taskLoader,
+      },
+      {
+        path: "tasks/:taskId/edit",
+        element: <EditTask />,
+        loader: taskLoader,
+        action: editAction,
       },
     ],
   }

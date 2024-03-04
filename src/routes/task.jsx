@@ -1,14 +1,13 @@
-import { Form } from "react-router-dom";
+import { Form, useLoaderData } from "react-router-dom";
+import { getTask } from "../tasks";
+
+export async function loader({ params }) {
+  const task = await getTask(params.taskId);
+  return { task };
+}
 
 export default function Task() {
-  const task = {
-    name: "Your",
-    last: "Name",
-    avatar: "https://placekitten.com/g/200/200",
-    twitter: "your_handle",
-    notes: "Some notes",
-    favorite: true,
-  };
+  const { task } = useLoaderData();
 
   return (
     <div id="contact">

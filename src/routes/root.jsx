@@ -1,5 +1,10 @@
-import { Outlet, Link, useLoaderData, } from "react-router-dom";
-import { getTasks } from "../tasks";
+import { Outlet, Link, useLoaderData, Form, redirect,} from "react-router-dom";
+import { getTasks, createTask } from "../tasks";
+
+export async function action() {
+  const task = await createTask();
+  return redirect(`/tasks/${task.id}/edit`);
+}
 
 export async function loader() {
   const tasks = await getTasks();
@@ -33,9 +38,9 @@ export default function Root() {
               aria-live="polite"
             ></div>
           </form>
-          <form method="post">
+          <Form method="post">
             <button type="submit">New</button>
-          </form>
+          </Form>
         </div>
         <nav>
         {tasks.length ? (
@@ -57,7 +62,7 @@ export default function Root() {
             </ul>
           ) : (
             <p>
-              <i>No contacts</i>
+              <i>No tasks</i>
             </p>
           )}
         </nav>
