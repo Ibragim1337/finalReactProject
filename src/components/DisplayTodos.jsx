@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const DisplayTodos = (props) => {
-  const [sort, setSort] = useState('Active')
+  const [sort, setSort] = useState('active')
 
   return (
     <div className="displaytodos">
@@ -51,7 +51,7 @@ const DisplayTodos = (props) => {
           props.todos.length > 0 && sort === 'completed' ?
           props.todos.map(item => {
             return( 
-              item.completed === false && 
+              item.completed === true && 
               <TodoItem 
               key={item.id}
               item={item}
