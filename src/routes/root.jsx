@@ -1,4 +1,15 @@
+import { Outlet, Link, useLoaderData, } from "react-router-dom";
+import { getTasks } from "../tasks";
+
+export async function loader() {
+  const tasks = await getTasks();
+  return { tasks };
+}
+
 export default function Root() {
+
+  const { tasks } = useLoaderData();
+
   return (
     <>
       <div id="sidebar">
@@ -27,17 +38,33 @@ export default function Root() {
           </form>
         </div>
         <nav>
-          <ul>
-            <li>
-              <a href={`/tasks/1`}>Task 1</a>
-            </li>
-            <li>
-              <a href={`/tasks/2`}>Task 2</a>
-            </li>
-          </ul>
+        {tasks.length ? (
+            <ul>
+              {tasks.map((task) => (
+                <li key={task.id}>
+                  <Link to={`tasks/${task.id}`}>
+                    {task.first || task.last ? (
+                      <>
+                        {task.first} {task.last}
+                      </>
+                    ) : (
+                      <i>No Name</i>
+                    )}{" "}
+                    {task.favorite && <span>★</span>}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>
+              <i>No contacts</i>
+            </p>
+          )}
         </nav>
       </div>
-      <div id="detail"></div>
+      <div id="detail">
+        <Outlet/>
+      </div>
     </>
   );
 }

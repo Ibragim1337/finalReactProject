@@ -8,20 +8,24 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Root from './routes/Root';
+import Root, { loader as rootLoader } from "./routes/Root";
 import ErrorPage from './error-page';
 import Task from './routes/task';
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "tasks/:taskId",
-    element: <Task />,
-  },
+    loader: rootLoader,
+    children: [
+      {
+        path: "contacts/:contactId",
+        element: <Task />,
+      },
+    ],
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
