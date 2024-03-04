@@ -2,7 +2,6 @@ import localforage from "localforage";
 import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
 
-
 export async function getTasks(query) {
   await fakeNetwork(`getTasks:${query}`);
   let tasks = await localforage.getItem("tasks");
@@ -10,12 +9,13 @@ export async function getTasks(query) {
   if (query) {
     tasks = matchSorter(tasks, query, { keys: ["first", "last"] });
   }
+
   return tasks.sort(sortBy("last", "createdAt"));
 }
 
 export async function createTask() {
   await fakeNetwork();
-  let id = 'id' + Math.random().toString(16).slice(2);
+  let id = Math.random().toString(36).substring(2, 9);
   let task = { id, createdAt: Date.now() };
   let tasks = await getTasks();
   tasks.unshift(task);
@@ -32,7 +32,7 @@ export async function getTask(id) {
 
 export async function updateTask(id, updates) {
   await fakeNetwork();
-  let tasks = await localforage.getItem("contacts");
+  let tasks = await localforage.getItem("tasks");
   let task = tasks.find(task => task.id === id);
   if (!task) throw new Error("No task found for", id);
   Object.assign(task, updates);
@@ -41,7 +41,7 @@ export async function updateTask(id, updates) {
 }
 
 export async function deleteTask(id) {
-  let tasks = await localforage.getItem("contacts");
+  let tasks = await localforage.getItem("tasks");
   let index = tasks.findIndex(task => task.id === id);
   if (index > -1) {
     tasks.splice(index, 1);
