@@ -1,4 +1,4 @@
-import { Outlet, Link, useLoaderData, Form, redirect,} from "react-router-dom";
+import { Outlet, NavLink, useLoaderData, Form, redirect, useNavigation,} from "react-router-dom";
 import { getTasks, createTask } from "../tasks";
 
 export async function action() {
@@ -14,6 +14,7 @@ export async function loader() {
 export default function Root() {
 
   const { tasks } = useLoaderData();
+  const navigation = useNavigation();
 
   return (
     <>
@@ -47,7 +48,14 @@ export default function Root() {
             <ul>
               {tasks.map((task) => (
                 <li key={task.id}>
-                  <Link to={`tasks/${task.id}`}>
+                  <NavLink to={`tasks/${task.id}`}
+                    className={({ isActive, isPending }) =>
+                      isActive
+                        ? "active"
+                        : isPending
+                        ? "pending"
+                        : ""
+                    }>
                     {task.first || task.last ? (
                       <>
                         {task.first} {task.last}
@@ -56,7 +64,7 @@ export default function Root() {
                       <i>No Name</i>
                     )}{" "}
                     {task.favorite && <span>★</span>}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -67,7 +75,9 @@ export default function Root() {
           )}
         </nav>
       </div>
-      <div id="detail">
+      <div id="detail" className={
+          navigation.state === "loading" ? "loading" : ""
+        }>
         <Outlet/>
       </div>
     </>

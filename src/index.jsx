@@ -12,6 +12,7 @@ import Root, { loader as rootLoader, action as rootAction } from './routes/Root'
 import ErrorPage from './error-page';
 import Task, {loader as taskLoader,} from './routes/task';
 import EditTask, {action as editAction,} from './routes/edit';
+import { action as destroyAction } from "./routes/destroy";
 
 
 const router = createBrowserRouter([
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
         element: <EditTask />,
         loader: taskLoader,
         action: editAction,
+      },
+      {
+        path: "tasks/:taskId/destroy",
+        action: destroyAction,
+        errorElement: <div>Oops! There was an error.</div>,
       },
     ],
   }
