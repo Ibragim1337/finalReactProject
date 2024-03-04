@@ -1,5 +1,5 @@
-const root = () => {
-  (
+export default function Root() {
+  return (
     <>
       <div id="sidebar">
         <h1>React Router Tasks</h1>
@@ -7,7 +7,7 @@ const root = () => {
           <form id="search-form" role="search">
             <input
               id="q"
-              aria-label="Search tasks"
+              aria-label="Search contacts"
               placeholder="Search"
               type="search"
               name="q"
@@ -23,16 +23,16 @@ const root = () => {
             ></div>
           </form>
           <form method="post">
-            <button type="submit">New Task</button>
+            <button type="submit">New</button>
           </form>
         </div>
         <nav>
           <ul>
             <li>
-              <a href={`/tasks/1`}>Your Name</a>
+              <a href={`/tasks/1`}>Task 1</a>
             </li>
             <li>
-              <a href={`/tasks/2`}>Your Friend</a>
+              <a href={`/tasks/2`}>Task 2</a>
             </li>
           </ul>
         </nav>
