@@ -21,26 +21,10 @@ const mapDispatchToProps = (dispatch) => {
 
 const Todos = (props) => {
   const [todo, setTodo] = useState('');
-  const inputRef = useRef(true);
-
-  const changeFocus = () => {
-    inputRef.current.disabled = false;
-    inputRef.current.focus()
-  }
-
-  const update = (id, value, e) => {
-    if(e.wich === 13){
-      props.updateTodo({id, item: value});
-      inputRef.current.disabled = true;
-    }
-  }
-
-
+  
   const handleChange = (e) => {
     setTodo(e.target.value)
-  }
-
-  console.log('props from store', props);
+  };
 
   return (
     <div className="addTodos">
@@ -49,32 +33,13 @@ const Todos = (props) => {
        className="todo-input"
         />
       <button className="add-btn" 
-      onClick={() => props.addTodo({
+        onClick={() => props.addTodo({
         id:'id' + Math.random().toString(16).slice(2),
         item: todo,
-        description: '',
         completed: false
       })}
       >Add</button>
       <br/>
-
-      <ul>
-        {
-          props.todos.map(item =>{
-            return (
-            <li key={item.id}>
-            <textarea ref={inputRef}
-             disabled={inputRef}
-              defaultValue={item.item}
-              onKeyDown={(e)=> update(item.id, inputRef.current.value, e)} />
-            <button onClick={() => changeFocus()}>Edit</button>
-            <button onClick={() => props.completeTodo(item.id)}>Complete</button>
-            <button onClick={() => props.removeTodo(item.id)}>Delete</button>
-            </li>
-            )
-          })
-        }
-      </ul>
     </div>
   )
 }
