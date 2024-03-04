@@ -35,7 +35,6 @@ const addTodoReducer = createSlice({
           return {
             ...todo,
             completed: true,
-
           }
         }
         return todo;
